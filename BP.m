@@ -8,12 +8,18 @@ INPUT_NODE = 4;
 HIDDEN_NODE = 5;
 OUTPUT_NODE = 3;
 
-w_hid = 0.50*rands(HIDDEN_NODE,INPUT_NODE);
+w_hid = [-0.6394 -0.2696 -0.3756 -0.7023;
+    -0.8603 -0.2013 -0.5024 -0.2596;
+    -1.0749 0.5543 -1.6820 -0.5437;
+    -0.3625 -0.0724 -0.6463 -0.2859;
+    0.1425 0.0279 -0.5406 -0.7660];
 w_hid_1 = w_hid;
 w_hid_2 = w_hid;
 w_hid_3 = w_hid;
 
-w_out = 0.50*rands(OUTPUT_NODE,HIDDEN_NODE);
+w_out = [0.7576 0.2616 0.5820 -0.1416 -0.1325;
+    -0.1146 0.2949 0.8352 0.2205 0.4508;
+    0.7201 0.4566 0.7672 0.4962 0.3632];
 w_out_1 = w_out;
 w_out_2 = w_out;
 w_out_3 = w_out;
@@ -78,7 +84,7 @@ for k = 1:1:500
     %w_out
     dyout_u(k) = sign( ( yout(k)-yout_1 )/( u(k)-u_1+0.0000001 ) );%被控对象输出函数对P.I.D控制输出函数求导，只取符号不取数值
     for j=1:1:OUTPUT_NODE
-        dOUT_out_OUT_in(j)=2/( exp(OUT_out(j)) + exp(-OUT_out(j)) )^2;%输出层输出函数对输入函数求导，即输出层激活函数求导
+        dOUT_out_OUT_in(j)=2/( exp(OUT_in(j)) + exp(-OUT_in(j)) )^2;%输出层输出函数对输入函数求导，即输出层激活函数求导
     end
     
     for L=1:1:OUTPUT_NODE
@@ -94,7 +100,7 @@ for k = 1:1:500
     
     %w_hide
     for i = 1:1:HIDDEN_NODE
-        dHID_out_HID_in(i) = 4/( exp(HID_out(i)) + exp(-HID_out(i)) )^2;
+        dHID_out_HID_in(i) = 4/( exp(HID_in(i)) + exp(-HID_in(i)) )^2;
     end
     dE_HID_out = dE_OUT_in*w_out;
     for i = 1:1:HIDDEN_NODE
